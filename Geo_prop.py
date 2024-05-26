@@ -8,12 +8,17 @@ l_b_y = 0.2 # width of the beam in m
 l_b_x = 0.2 # height of the beam in m
 t = 0.02 # thickness of the beam in m
 
+
 # Geometric properties of the grid
 
 l_g_z = 5 # length of the grid in m
 l_g_y = 1 # width of the grid in m
 l_g_x = 0.2 # height of the grid in m
 
+A_beam_yz = l_b_y * l_b_z # cross-sectional area of the beam in m^2
+A_grid_yz = (l_g_y * l_g_z) - A_beam_yz # cross-sectional area of the grid in m^2
+A_beam_xy = l_b_x * l_b_y # cross-sectional area of the beam in m^2
+A_beam_xz = l_b_x * l_b_z # cross-sectional area of the beam in m^2
 
 grid_z0 = 0.5 # distance to the first grid node in m
 n_grid = 31 # number of attachement grid points
