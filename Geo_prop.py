@@ -22,6 +22,6 @@ I_xx = ((l_b_y)**3 * l_b_x)/12 - ((l_b_y - 2*t)**3 * (l_b_x - 2*t))/12 # moment 
 I_yy = ((l_b_x)**3 * l_b_y)/12 - ((l_b_x - 2*t)**3 * (l_b_y - 2*t))/12 # moment of inertia in m^4
 I_zz = 0
 
-J_z = I_xx + I_yy # polar moment of inertia in m^4
+J_z = l_b_y**3 * l_b_x * (1/3 - 0.21 * (l_b_y/l_b_x) * (1 - (l_b_y**4)/(12*l_b_x**4))) # torsional constant in m^4
 
 
