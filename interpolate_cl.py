@@ -1,4 +1,5 @@
 import numpy as np
+import scipy as sp
 import matplotlib.pyplot as plt
 
 n_nodes = 9
@@ -36,5 +37,13 @@ ax[1].set_xlabel('Delta, [deg]')
 ax[1].set_ylabel('Drag Coefficient, [-]')
 ax[1].grid()
 
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()
+
+# Interpolate the aerodynamic coefficients
+
+cl_cubic = sp.interpolate.interp1d(x=delta, y=cl_list, kind='cubic')
+cw_cubic = sp.interpolate.interp1d(x=delta, y=cw_list, kind='cubic')
+
+cw_test = cw_cubic(28)
+print(cw_test)
