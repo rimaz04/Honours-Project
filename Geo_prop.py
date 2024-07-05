@@ -34,3 +34,4 @@ I_zz = 0
 J_z = l_b_y**3 * l_b_x * (1/3 - 0.21 * (l_b_y/l_b_x) * (1 - (l_b_y**4)/(12*l_b_x**4))) # torsional constant in m^4
 
 
+
