@@ -7,10 +7,13 @@ def normal_force(omega, r):
     r_end = 10.975
 
     rho = 7800 # kg/m^3
-    dm = rho* cross_sectional_area(x)
+
 
     # integrating r*dm from r to r_end
-    I = integrate.quad(lambda r: x*dm, r, r_end)
+    I = integrate.quad(lambda x: x*cross_sectional_area(x), r, r_end)
     n = omega**2 * I[0]
     return n
+
+print(normal_force(2.62, 4.43))
+
 
