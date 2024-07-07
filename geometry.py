@@ -83,4 +83,3 @@ def cross_sectional_area(r):
     return A
 
 print(cross_sectional_area(0))
-print(0.35*0.01*2+0.01*0.31)
