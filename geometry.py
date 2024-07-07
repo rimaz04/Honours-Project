@@ -80,7 +80,7 @@ def cross_sectional_area(r):
     w = width(r)
     print(w)
     print(t_top, t_front)
-    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * np.cos(twist_angle(r)) - 1/2 * (((h_back_top - t_top) - (h_back_bottom - t_top)) - ((h_front_top - t_top) - (h_front_bottom - t_top))) * (w - 2*t_front) * np.cos(twist_angle(r))
+    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * np.cos(twist_angle(r)) - 1/2 * (((h_back_top - t_top) - (h_back_bottom - t_top)) + ((h_front_top - t_top) - (h_front_bottom - t_top))) * (w - 2*t_front) * np.cos(twist_angle(r))
     print(height(r))
     return A
 
