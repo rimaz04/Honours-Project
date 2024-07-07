@@ -14,6 +14,6 @@ def normal_force(omega, r):
     n = omega**2 * I[0]
     return n
 
-print(normal_force(2.62, 4.43))
+print(normal_force(2.62, 0))
 
 
