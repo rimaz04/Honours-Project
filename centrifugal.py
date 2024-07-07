@@ -11,7 +11,6 @@ def normal_force(omega, r):
 
     # integrating r*dm from r to r_end
     I = integrate.quad(lambda r: x*dm, r, r_end)
-    return I[0]
     n = omega**2 * I[0]
     return n
 
