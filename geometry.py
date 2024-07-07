@@ -7,8 +7,8 @@ from scipy import interpolate
 
 def alpha(r):
     angle = [18, 18.4, 18.8, 19, 19.1, 19.1, 19, 18.8, 18.5, 18.1, 17.6, 17, 16.2, 15.4, 14.4, 13.3, 12.1, 10.8, 9.3, 7.7, 6, 4.1, 1.9, -0.5, -3.1, -6]
-    r_start = 1975
-    r_end = 10975
+    r_start = 1.975
+    r_end = 10.975
     # interpolate the angle
     angle_interp = np.interp(r, np.linspace(r_start, r_end, len(angle)), angle)
     if r < r_start:
@@ -39,26 +39,25 @@ def twist_angle(r):
         return 0
     else:
         # return angle at r
-        return phi
+        return phi(r)
 
 chord_width = 2.5 # m
 
 def height(r):
     if r < 0.35:
-        h_back_top = 350
+        h_back_top = 0.35
         h_back_bottom = 0
-        h_front_top = 350
+        h_front_top = 0.35
         h_front_bottom = 0
         # h_back = h_back_top - h_back_bottom
         # h_front = h_front_top - h_front_bottom
         return h_back_top, h_back_bottom, h_front_top, h_front_bottom
     z = [0.35, 10.975]
     h_back_top = [0.350, 0.700]
-    h_back_bottom = [0, 0.7-0.1]
+    h_back_bottom = [0, 0.6]
     h_back_top = interpolate.interp1d(z, h_back_top)
     h_back_bottom = interpolate.interp1d(z, h_back_bottom)
     # h_back = h_back_top(r) - h_back_bottom(r)
-
     h_front_top = h_back_top(r) - twist_angle(r) * width(r)
     h_front_bottom = h_back_bottom(r) - twist_angle(r) * width(r)
     # h_front = h_front_top - h_front_bottom
@@ -82,3 +81,6 @@ def cross_sectional_area(r):
     A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * t_front + t_top * w
 
     return A
+
+print(cross_sectional_area(0))
+print(0.35*0.01*2+0.01*0.31)
