@@ -9,7 +9,7 @@ def aeroload(omega, V, r):
     print(w)
 
     beta = np.degrees(np.arctan2(V, u_r))
-    alpha = alpha_calc(r)
+    alpha = twist_angle(r)
     delta = beta - alpha
     print(delta)
 
