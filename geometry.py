@@ -78,7 +78,7 @@ def cross_sectional_area(r):
     t_top, t_front = thickness(r)
     w = width(r)
     
-    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * alpha(r) - 1/2 * (((h_back_top - t_top) - (h_back_bottom - t_top)) - ((h_front_top - t_top) - (h_front_bottom - t_top))) * (w - 2*t_front) *twist_angle(r)
+    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * twist_angle(r) - 1/2 * (((h_back_top - t_top) - (h_back_bottom - t_top)) - ((h_front_top - t_top) - (h_front_bottom - t_top))) * (w - 2*t_front) * twist_angle(r)
 
     return A
 
