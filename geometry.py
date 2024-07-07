@@ -58,8 +58,8 @@ def height(r):
     h_back_top = interpolate.interp1d(z, h_back_top)
     h_back_bottom = interpolate.interp1d(z, h_back_bottom)
     # h_back = h_back_top(r) - h_back_bottom(r)
-    h_front_top = h_back_top(r) - twist_angle(r) * width(r)
-    h_front_bottom = h_back_bottom(r) - twist_angle(r) * width(r)
+    h_front_top = h_back_top(r) - np.tan(twist_angle(r)) * width(r)
+    h_front_bottom = h_back_bottom(r) - np.tan(twist_angle(r)) * width(r)
     # h_front = h_front_top - h_front_bottom
     return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
 
