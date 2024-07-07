@@ -58,8 +58,8 @@ def height(r):
     h_back_top = interpolate.interp1d(z, h_back_top)
     h_back_bottom = interpolate.interp1d(z, h_back_bottom)
     # h_back = h_back_top(r) - h_back_bottom(r)
-    h_front_top = h_back_top(r) - twist_angle(r) * width(r)
-    h_front_bottom = h_back_bottom(r) - twist_angle(r) * width(r)
+    h_front_top = h_back_top(r) - np.tan(twist_angle(r)) * width(r)
+    h_front_bottom = h_back_bottom(r) - np.tan(twist_angle(r)) * width(r)
     # h_front = h_front_top - h_front_bottom
     return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
 
@@ -80,9 +80,11 @@ def cross_sectional_area(r):
     w = width(r)
     print(w)
     print(t_top, t_front)
-    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * np.cos(twist_angle(r)) - 1/2 * (((h_back_top - t_top) - (h_back_bottom - t_top)) - ((h_front_top - t_top) - (h_front_bottom - t_top))) * (w - 2*t_front) * np.cos(twist_angle(r))
+    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w * np.cos(twist_angle(r)) - 1/2 * (((h_back_top - h_back_bottom - 2*t_top)) + ((h_front_top - h_front_bottom - 2*t_top))) * (w - 2*t_front) * np.cos(twist_angle(r))
     print(height(r))
+    print('angle: ', twist_angle(r))
     return A
 
 print(cross_sectional_area(0.001))
+print(18*np.pi/180)
 
