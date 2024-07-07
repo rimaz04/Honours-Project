@@ -1,10 +1,11 @@
 import numpy as np
 from geometry import *
 from interpolate_cl import *
+from velocity import *
 
 
-def aeroload(omega, V, r):
-    u_r = omega * r
+def aeroload(theta, w0 ,V, r):
+    u_r = omega(theta, w0) * r
     w = np.sqrt(V**2 + u_r**2)
     print(w)
 
