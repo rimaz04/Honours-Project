@@ -64,10 +64,10 @@ def height(r):
     return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
 
 def thickness(r):
-    z_top = [0, 1.1, 2.635, 2.160, 5.080]
+    z_top = np.cumsum([0, 1.1, 2.635, 2.160, 5.080])
     t_top = [0.01, 0.008, 0.006, 0.004]
     pos_top = np.searchsorted(z_top, r)
-    z_front = [0, 1.2, 2.635, 2.160, 5.080]
+    z_front = np.cumsum([0, 1.2, 2.635, 2.160, 5.080])
     t_front = [0.01, 0.008, 0.006, 0.004]
     pos_front = np.searchsorted(z_front, r)
     if r == 0:
@@ -78,13 +78,8 @@ def cross_sectional_area(r):
     h_back_top, h_back_bottom, h_front_top, h_front_bottom = height(r)
     t_top, t_front = thickness(r)
     w = width(r)
-    print(w)
-    print(t_top, t_front)
+
     A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w - 1/2 * (((h_back_top - h_back_bottom - 2*t_top)) + ((h_front_top - h_front_bottom - 2*t_top))) * (w - 2*t_front)
-    print(height(r))
-    print('angle: ', twist_angle(r))
     return A
 
-print(cross_sectional_area(0.001))
-print(18*np.pi/180)
 
