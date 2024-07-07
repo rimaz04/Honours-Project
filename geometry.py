@@ -18,8 +18,11 @@ def alpha(r):
         return angle_interp
 
 def width(r):
-    z = [0, 10.975]
-    x = [310, 200]
+    if r < 1.100:
+        return 0.310
+    
+    z = [1.100, 10.975]
+    x = [0.310, 0.200]
 
     w = interpolate.interp1d(z, x)
     return w(r)
@@ -31,7 +34,7 @@ def twist_angle(r):
     r_end = 10.975
    
     # interpolate the angle
-    phi = np.interp(r, np.linspace(r_start, r_end, len(angle)), np.deg2rad(angle))
+    phi = interpolate.interp1d(np.linspace(r_start, r_end, len(angle)), np.deg2rad(angle))
     if r < r_start:
         return 0
     else:
@@ -41,4 +44,41 @@ def twist_angle(r):
 chord_width = 2.5 # m
 
 def height(r):
-    h_front_top = [0]
+    if r < 0.35:
+        h_back_top = 350
+        h_back_bottom = 0
+        h_front_top = 350
+        h_front_bottom = 0
+        # h_back = h_back_top - h_back_bottom
+        # h_front = h_front_top - h_front_bottom
+        return h_back_top, h_back_bottom, h_front_top, h_front_bottom
+    z = [0.35, 10.975]
+    h_back_top = [0.350, 0.700]
+    h_back_bottom = [0, 0.7-0.1]
+    h_back_top = interpolate.interp1d(z, h_back_top)
+    h_back_bottom = interpolate.interp1d(z, h_back_bottom)
+    # h_back = h_back_top(r) - h_back_bottom(r)
+
+    h_front_top = h_back_top(r) - twist_angle(r) * width(r)
+    h_front_bottom = h_back_bottom(r) - twist_angle(r) * width(r)
+    # h_front = h_front_top - h_front_bottom
+    return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
+
+def thickness(r):
+    z_top = [1.1, 2.635, 2.160, 5.080]
+    t_top = [0.01, 0.008, 0.006, 0.004]
+    pos_top = np.searchsorted(z_top, r)
+    z_front = [1.1, 2.635, 2.160, 5.080]
+    t_front = [0.01, 0.008, 0.006, 0.004]
+    pos_front = np.searchsorted(z_front, r)
+
+    return t_top[pos_top - 1], t_front[pos_front - 1]
+
+def cross_sectional_area(r):
+    h_back_top, h_back_bottom, h_front_top, h_front_bottom = height(r)
+    t_top, t_front = thickness(r)
+    w = width(r)
+    
+    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * t_front + t_top * w
+
+    return A
