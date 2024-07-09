@@ -1,6 +1,6 @@
 import numpy as np
-from matplotlib import pyplot as plt
-from scipy import interpolate
+from scipy import interpolate, integrate
+import mat_prop as mp
 
 
 def width(r):
@@ -68,3 +68,9 @@ def cross_sectional_area(r):
     A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w - 1/2 * (((h_back_top - h_back_bottom - 2*t_top)) + ((h_front_top - h_front_bottom - 2*t_top))) * (w - 2*t_front)
     return A
 
+def mass(r):
+    r_end = 10.975
+
+    # integrating r*dm from r to r_end
+    m = integrate.quad(lambda x: mp.rho*cross_sectional_area(x), r, r_end)
+    return m[0]

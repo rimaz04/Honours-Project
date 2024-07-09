@@ -9,6 +9,7 @@ def normal_force(omega, r):
 
     # integrating r*dm from r to r_end
     I = integrate.quad(lambda x: rho*x*cross_sectional_area(x), r, r_end)
+    print(integrate.quad(lambda x: rho*cross_sectional_area(x), r, r_end))
     n = omega**2 * I[0]
     return n
 
