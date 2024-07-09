@@ -74,3 +74,5 @@ def mass(r):
     # integrating r*dm from r to r_end
     m = integrate.quad(lambda x: mp.rho*cross_sectional_area(x), r, r_end)
     return m[0]
+
+print(f'\n \n The mass of half of the outer beam is {mass(0)} kg. \n \n')
