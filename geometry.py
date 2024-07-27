@@ -35,19 +35,19 @@ def height(r):
         h_back_bottom = 0
         h_front_top = 0.35
         h_front_bottom = 0
-        # h_back = h_back_top - h_back_bottom
-        # h_front = h_front_top - h_front_bottom
-        return h_back_top, h_back_bottom, h_front_top, h_front_bottom
-    z = [1.2, 10.975]
+        h_back = h_back_top - h_back_bottom
+        h_front = h_front_top - h_front_bottom
+        return h_back, h_front
+    z = [0.35, 10.975]
     h_back_top = [0.350, 0.700]
     h_back_bottom = [0, 0.6]
     h_back_top = interpolate.interp1d(z, h_back_top)
     h_back_bottom = interpolate.interp1d(z, h_back_bottom)
-    # h_back = h_back_top(r) - h_back_bottom(r)
-    h_front_top = h_back_top(r) #- np.tan(twist_angle(r)) * width(r)
-    h_front_bottom = h_back_bottom(r) #- np.tan(twist_angle(r)) * width(r)
-    # h_front = h_front_top - h_front_bottom
-    return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
+    h_back = h_back_top(r) - h_back_bottom(r)
+    # h_front_top = h_back_top(r) - np.tan(twist_angle(r)) * width(r)
+    # h_front_bottom = h_back_bottom(r) - np.tan(twist_angle(r)) * width(r)
+    h_front = h_back
+    return h_back, h_front
 
 def thickness(r):
     z_top = np.cumsum([0, 1.1, 2.635, 2.160, 5.080])
@@ -61,11 +61,11 @@ def thickness(r):
     return t_top[pos_top - 1], t_front[pos_front - 1]
 
 def cross_sectional_area(r):
-    h_back_top, h_back_bottom, h_front_top, h_front_bottom = height(r)
+    h_back, h_front = height(r)
     t_top, t_front = thickness(r)
     w = width(r)
 
-    A = 1/2 * ((h_back_top - h_back_bottom) + (h_front_top - h_front_bottom)) * w - 1/2 * (((h_back_top - h_back_bottom - 2*t_top)) + ((h_front_top - h_front_bottom - 2*t_top))) * (w - 2*t_front)
+    A = 1/2 * (h_back + h_front) * w - 1/2 * ((h_back - 2*t_top) + (h_front - 2*t_top)) * (w - 2*t_front)
     return A
 
 def mass(r):
