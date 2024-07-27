@@ -16,7 +16,7 @@ def width(r):
 
 def twist_angle(r):
     angle = [18, 18.4, 18.8, 19, 19.1, 19.1, 19, 18.8, 18.5, 18.1, 17.6, 17, 16.2, 15.4, 14.4, 13.3, 12.1, 10.8, 9.3, 7.7, 6, 4.1, 1.9, -0.5, -3.1, -6]
-    r_start = 0
+    r_start =0
     r_end = 10.975
    
     # interpolate the angle
@@ -30,7 +30,7 @@ def twist_angle(r):
 chord_width = 2.5 # m
 
 def height(r):
-    if r < 0.35:
+    if r < 1.2:
         h_back_top = 0.35
         h_back_bottom = 0
         h_front_top = 0.35
@@ -38,14 +38,14 @@ def height(r):
         # h_back = h_back_top - h_back_bottom
         # h_front = h_front_top - h_front_bottom
         return h_back_top, h_back_bottom, h_front_top, h_front_bottom
-    z = [0.35, 10.975]
+    z = [1.2, 10.975]
     h_back_top = [0.350, 0.700]
     h_back_bottom = [0, 0.6]
     h_back_top = interpolate.interp1d(z, h_back_top)
     h_back_bottom = interpolate.interp1d(z, h_back_bottom)
     # h_back = h_back_top(r) - h_back_bottom(r)
-    h_front_top = h_back_top(r) - np.tan(twist_angle(r)) * width(r)
-    h_front_bottom = h_back_bottom(r) - np.tan(twist_angle(r)) * width(r)
+    h_front_top = h_back_top(r) #- np.tan(twist_angle(r)) * width(r)
+    h_front_bottom = h_back_bottom(r) #- np.tan(twist_angle(r)) * width(r)
     # h_front = h_front_top - h_front_bottom
     return h_back_top(r), h_back_bottom(r), h_front_top, h_front_bottom
 
@@ -75,4 +75,48 @@ def mass(r):
     m = integrate.quad(lambda x: mp.rho*cross_sectional_area(x), r, r_end)
     return m[0]
 
+# def circum_ar(r):
+#     hb = height(r)[0]-height(r)[1]
+#     hf = height(r)[2]-height(r)[3]
+#     w = width(r)
+#     c = hb + hf + w + w
+#     a = c*thickness(r)[0] - 4*thickness(r)[1]**2	
+#     return a
+
+# def mass2(r):
+#     r_end = 10.975
+
+#     # integrating dm from r to r_end
+#     m = integrate.quad(lambda x: mp.rho*circum_ar(x), r, r_end)
+#     return m[0]
+
 print(f'\n \n The mass of half of the outer beam is {mass(0)} kg. \n \n')
+# print(f'\n \n The mass of half of the outer beam is {mass2(0)} kg. \n \n')
+# print(height(10.975)[0]-height(10.975)[1])
+# print(thickness(10.975)[0])
+# print((height(1.2)[0])-height(1.2)[1])
+# print((height(1.2)[2])-height(1.2)[3])
+
+# #plot h front and h back
+# import matplotlib.pyplot as plt
+# r = np.linspace(0, 10.975, 100)
+# h_back_top = []
+# h_back_bottom = []
+# h_front_top = []
+# h_front_bottom = []
+# for i in r:
+#     h_back_top.append(height(i)[0])
+#     h_back_bottom.append(height(i)[1])
+#     h_front_top.append(height(i)[2])
+#     h_front_bottom.append(height(i)[3])
+
+# plt.plot(r, h_back_top, label='h_back_top')
+# #plt.plot(r, h_back_bottom, label='h_back_bottom')
+# plt.plot(r, h_front_top, label='h_front_top')
+# #plt.plot(r, h_front_bottom, label='h_front_bottom')
+# plt.legend()
+# plt.show()
+
+
+
+
